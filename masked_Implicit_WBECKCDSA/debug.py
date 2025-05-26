@@ -1,0 +1,226 @@
+# k = 0x71B88F398916DA9C90F555F1B5732B7DC636B49C638150BAC11BF05CFE16596A
+# n = 0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551
+# inv_6 = 0xD555555480000000D5555555555555551D6B263B6093AEC4207028F7D2529F19
+
+# A_last_3x3_table=\
+#     [0xF719032390F4C4CF66BB190A3E709182F4A0A9BCE08ACB89BC0422DED9E35421,0x4574D6C8EFB780695E86B7E372FC028EA82140B45C1E758436DE5616C03D6E48, 0x8D847C724C6C3DEF02676B44464073221BF655650317EDE192A4B011A6C595F5, \
+#     0xF1A3D4544B723141D2A4A57940D49A1F29A6EF226DE243C3C25BBC12D037936F, 0xDD23ABF52E9A490C436F220589C96EA662688C863E023829405838AD8C26E639, 0x161115585D01675CCDF8B87D05F853FB3DB3109F978BECD01FC35C8D692F70A7, \
+#     0xB8D8BFB1918E77720D9A9741457D06A214460A97648D9C3890BEA4BCA6427A1A, 0x9D9830D46A24AF57B247DA8C92B31DF1011F937575550A20E0D46F708D407D62, 0x9CFF7C9770BD6530D93C8FF87011EE0B7E41449F40E124443989A1D767AC2330]
+# B_last_3x1_table=\
+#     [0xD2285B6AA8A3D508A60788DD3BE3DAC4C8980AE2C903BBE89A48DB097F396AFF,0x68C8AEFE7C2B0A2C51B8E6663727404857C07AE4947A20A27933026865555B8A,0x9231437D26D3117BA232190B3445AF57A1A3950ACF52C0DB6B6F05A1EFD261FF]
+# Ay_3x1=\
+#     [0xC1564450A747174C0DCFD256880AFE092B7E9AFE4871F59B8C8C2D5415C4E094,0xDF23FF1EAA61D92C8AB68D867F34D4EE6D5893AED3376A3C7F238C5D5A6F000E,0x3B6412338462709F8CAFFD03B3120A1E809A2CAA5E37F08D74A485DE68B9663D]
+# origin_result=\
+#     [0x61D4391BEB988502359E5B175F9A18BC68917AD9AA13BBC88FCD5A5B64B52E5A,0xCAB741FE6F91DA57802476D0A110071F9D2ABD0B392470596FD3CCE1E8B83A1B, 0xD3E3B8ADD8AC027215A60E2ACC9804FE9230AA880684C10DAF1A4D7EDEF61D16]
+# Ay_b_3x1=\
+#     [0x796AE3ABF529FD9B7AB0E866CB0FA3A377610D15242CE196370089A1153E3CD3, 0x791FD9AB81E549443DEA97A8780A5678A8D30C2CABDA8B9DA8DB544B62046AE4,0xD5860B57D5516E05EF5DE7ED4CEBE513BF0549E60C70AE3C7578CF0D56D5F4E8]
+
+# def matrix_operation(A, B, C):
+#     # Step 1: Element-wise subtraction of B and C
+#     result_subtraction = [0, 0, 0]
+#     for i in range(3):
+#         result_subtraction[i] = (B[i] - C[i]) % n
+#         print("result_subtraction[%d] = %064X" % (i, result_subtraction[i]))
+
+#     # Step 2: Matrix multiplication of A (3x3) with B (3x1)
+#     result_multiplication = [0, 0, 0]
+#     for i in range(3):
+#         for j in range(3):
+#             result_multiplication[i] = (result_multiplication[i] + A[i * 3 + j] * B[j]) % n
+
+#     for i in range(3):
+#         print("result_multiplication[%d] = %064X" % (i, result_multiplication[i]))
+
+#     return result_subtraction, result_multiplication
+
+# # Example input (출력된 인코딩된 B, (A는 3x3 행렬, C는 상수행렬)  :   A(B-C)     )
+# A = \
+#     [0xF719032390F4C4CF66BB190A3E709182F4A0A9BCE08ACB89BC0422DED9E35421,0x4574D6C8EFB780695E86B7E372FC028EA82140B45C1E758436DE5616C03D6E48, 0x8D847C724C6C3DEF02676B44464073221BF655650317EDE192A4B011A6C595F5, \
+#     0xF1A3D4544B723141D2A4A57940D49A1F29A6EF226DE243C3C25BBC12D037936F, 0xDD23ABF52E9A490C436F220589C96EA662688C863E023829405838AD8C26E639, 0x161115585D01675CCDF8B87D05F853FB3DB3109F978BECD01FC35C8D692F70A7, \
+#     0xB8D8BFB1918E77720D9A9741457D06A214460A97648D9C3890BEA4BCA6427A1A, 0x9D9830D46A24AF57B247DA8C92B31DF1011F937575550A20E0D46F708D407D62, 0x9CFF7C9770BD6530D93C8FF87011EE0B7E41449F40E124443989A1D767AC2330]
+# B = [0x01, 0x01, 0x01]  # 3x1 vector
+# C = [0x00, 0x01, 0x00]  # 3x1 vector
+
+
+
+# # Call the function
+# matrix_operation(A, B, C)
+
+# matrix_operation(A_last_3x3_table,Ay_3x1,C)
+# #올바른 출력
+# #[0x61D4391BEB988502359E5B175F9A18BC68917AD9AA13BBC88FCD5A5B64B52E5A,0xCAB741FE6F91DA57802476D0A110071F9D2ABD0B392470596FD3CCE1E8B83A1B, 0xD3E3B8ADD8AC027215A60E2ACC9804FE9230AA880684C10DAF1A4D7EDEF61D16]
+
+
+
+
+
+# def matrix_multiply_3(A, B):
+    
+#     result = [0, 0, 0]
+#     # 행렬 곱셈 수행
+#     for i in range(3):
+#         result[i] = (A[i ] - B[i]) % n 
+#         print("result[%d] = %064X"%(i,result[i]))
+#     return result
+# # matrix_multiply_2(a_last_3x3_table,result_A_3x1)
+# # matrix_multiply_3(result_AB_3x1,b_last_3x1_table)
+# # result_A2_3x1=\
+# #     [0xA74288404C862893D4A95F898F2BC8DE6BAFFCE00240C4329071795A9267F725,0x10572AAD05BA3F17EC31B14240E316305112914817606AFB2FA851E2FCAF0F5A,0x4354C7DAAE7E5C8A4D2BCEE218A635BC1D61B4DB3D1DED610A09C96B670392E9]
+
+# # matrix_multiply_2(a_last_3x3_table,result_A2_3x1)
+# # k_128_table = \
+# # [0x009f9c1c8c7d62ca2a72cb0d66036da43886373f6cfdcbd2d71fb52163f9bac7, 0x009dd08b017db404d66212324ccd52d9779fcd46e41555a95ccffc044c76b8fa, \
+# #  0x000beec41a9c48fdbd228ad775b3cb43df609c7aba7076fc3c5fbe01a863afc5, 0x00d4a6e7418ca62054036479d1af3770b80afceb15aaabd4105edd587243ad18,]
+
+# # alpha_128_table = \
+# # [0x012a1480c05c40fa1824e0066bce1a2fadb56aa00a63c3f30d5894767774afff, 0x0066689d3ba525656902fb2668143c79816305da3fd5ac13067fab1ec2b7e0db, \
+# #  0x00c5de120d16890e006531d2557308b44c28758916290094e641aa72a869f33a, 0x007f11f2fdf991f3c35349602f8e6f0a2b51eaafeaadb0603558ab1d7c3528c2, ]
+
+# # beta_128_table = \
+# # [0x0013627d9abc6e37aadd72e877dcbc0fe029ed45197bcef74b020afd5b136f5e, 0x00015b334a40dcc202dad8a2aea86f4c5408917103c0a35a411c73e78b396c2e, \
+# #  0x0001dc8448f29a9c7062f6e7101b1d991a2860b1752c2ae5e89d21b4c6e76d87, 0x00083294bcfd75610e797fef4233beb10f8648d3dba3e42d9388ca6c7735e9a7,]
+
+# # def cal_x_e1(table):
+# #     x_e1_value = -11*table[0] + 18*table[1] - 9*table[2] + 2*table[3]
+# #     print("%064X" %(x_e1_value % n))
+
+# # def cal_x_e2(table):
+# #     x_e2_value = 6*table[0] - 15*table[1] + 12*table[2] - 3*table[3]
+# #     print("%064X" %(x_e2_value % n))
+
+# # def cal_x_e3(table):
+# #     x_e3_value =  -table[0] + 3*table[1] - 3*table[2] + table[3]
+# #     print("%064X" %(x_e3_value % n))
+
+# # cal_x_e1(k_128_table)
+# # cal_x_e2(k_128_table)
+# # cal_x_e3(k_128_table)
+
+# # cal_x_e1(alpha_128_table)
+# # cal_x_e2(alpha_128_table)
+# # cal_x_e3(alpha_128_table)
+
+# # cal_x_e1(beta_128_table)
+# # cal_x_e2(beta_128_table)
+# # cal_x_e3(beta_128_table)
+# # def matrix_multiply(A, B):
+# #     # 두 3x3 행렬을 곱한 결과를 저장할 3x3 행렬 초기화
+# #     result = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    
+# #     # 행렬 곱셈 수행
+# #     for i in range(3):
+# #         for j in range(3):
+# #             for k in range(3):
+# #                 result[i][j] += (A[i][k] * B[k][j]) % n
+    
+# #     return result
+
+# # # 예시 행렬
+# # A = [
+# #     [0x08371A33C1C3E19330878075643E43EB58CC88BD5F644208CC4E2F3F9B7FF208, 0x5499FCC7C8BD34A9AD07CB133AD45D4141DF6CF1070C92BBD502F2E3238712FC, 0x5CA314A53F7E7943956588AEB17588664C5D0ADF0FA3C60710762B04A1F1078F, ],
+# #     [0xEE4825BE70D1BC7ABA08CF67BAE32E6C752300F2689B5CDB6CED24E574FB43E5, 0x8C0F168882DF574ACA87E5E9AEEEF46897401E1D0E2955333FDA8B458293C324, 0xD29170548702E4D8008505020A593DB96828C9844B33D794BD3179C2F8047DF3, ],
+# #     [0x61C32590CD7CC9995BD41FEBE43A415870AAB1BB5CA2BA698B325AFC403C092D, 0xA1B5BAA5F8AB83787F6221C6438E3A76A62DBCF4A71F9F319182D4C36CFDC162, 0x78E1684726417F20C9593898E7229E7F180B7EA64787347A08303BF9E74D0EB9,],
+# # ]
+
+# # B = [
+# #     [0xAD4976DEE87680A193648E71B283F895AE75CD85956D35C5CFAC9F9E10363BB1, 0x87B358C8376BF8599A95C7A67D9DF0EFD366F0F5F4CE762DC2EF9208EDC553DB, 0x61F0F6F5A6BE61E9736E5B802C29300DFABC35518BD54D250FBD1A93757A6E21, ],
+# #     [0x274B309E015B25755397A3B59817ABE7FBDD65C0FAEA0393ADA1E69FDD49DD54, 0x7A37217B59F7DA54C8C8FB64AD500737A5281AE8515E39A445CB64AA88F445A8, 0x72A0BC6E83B16C1AEA8733F16A8AD510EF265C4B6D63B201CA7DA76C0B06DB83, ],
+# #     [0x91240D560FC61B4A489E783B54D6876D998ACE921CFB8D2E7FFF8B31EE290EDB, 0x0E3D84CB5182C779F2F26C07B6E0218D4870244B20E5AA493AF50FFD41CE17DF, 0xF3C8A392828579B6AC48A44A178CA0CC42A4A723A039489376958FD0477C7444, ],
+# # ]
+
+# # # 행렬 곱셈 수행 및 출력
+# # result = matrix_multiply(A, B)
+# # for row in result:
+# #     print(row)
+
+# # import numpy as np
+
+# # def extended_gcd(a, b):
+# #     """유클리드 호제법을 사용하여 a와 b의 최대공약수와 x, y를 구함"""
+# #     if a == 0:
+# #         return b, 0, 1
+# #     gcd, x1, y1 = extended_gcd(b % a, a)
+# #     x = y1 - (b // a) * x1
+# #     y = x1
+# #     return gcd, x, y
+
+# # def mod_inverse(a, n):
+# #     """모듈러 역원 구하기"""
+# #     gcd, x, _ = extended_gcd(a % n, n)
+# #     if gcd != 1:
+# #         return None  # 역원이 없으면 None 반환
+# #     return x % n  # x를 mod n으로 조정하여 반환
+
+# # def matrix_determinant_mod(A, n):
+# #     """행렬식 계산 (mod n)"""
+# #     det = (
+# #         A[0][0] * (A[1][1] * A[2][2] - A[1][2] * A[2][1]) -
+# #         A[0][1] * (A[1][0] * A[2][2] - A[1][2] * A[2][0]) +
+# #         A[0][2] * (A[1][0] * A[2][1] - A[1][1] * A[2][0])
+# #     )
+# #     return det % n
+
+# # def adjugate_matrix_mod(A, n):
+# #     """여인수 행렬 구하기 (mod n)"""
+# #     adj = np.array([
+# #         [
+# #             (A[1][1] * A[2][2] - A[1][2] * A[2][1]) % n,
+# #             (A[0][2] * A[2][1] - A[0][1] * A[2][2]) % n,
+# #             (A[0][1] * A[1][2] - A[0][2] * A[1][1]) % n
+# #         ],
+# #         [
+# #             (A[1][2] * A[2][0] - A[1][0] * A[2][2]) % n,
+# #             (A[0][0] * A[2][2] - A[0][2] * A[2][0]) % n,
+# #             (A[0][2] * A[1][0] - A[0][0] * A[1][2]) % n
+# #         ],
+# #         [
+# #             (A[1][0] * A[2][1] - A[1][1] * A[2][0]) % n,
+# #             (A[0][1] * A[2][0] - A[0][0] * A[2][1]) % n,
+# #             (A[0][0] * A[1][1] - A[0][1] * A[1][0]) % n
+# #         ]
+# #     ])
+# #     return adj
+
+# # def inverse_matrix_mod(A, n):
+# #     """역행렬 계산"""
+# #     det = matrix_determinant_mod(A, n)
+# #     det_inv = mod_inverse(det, n)
+# #     if det_inv is None:
+# #         return None
+
+# #     adj = adjugate_matrix_mod(A, n)
+    
+# #     # 역행렬 구하기
+# #     inv_matrix = (det_inv * adj) % n
+# #     return inv_matrix.astype(int)
+
+# # # 16진수로 정의된 예시 행렬과 n 설정
+# # A = np.array([
+# #     [0x5031D5CDCEA69FFFD276BFB7578AA206758808C7DE386A396F497A681D807CB5, 
+# #      0x27C143334709CAB045C0FDA623666E0478C2F67444452419FC1807C862669421, 
+# #      0x04A01592706A5B62239803E2C4CCEFC2E2AD28399D5E0E53EC97ACAC5E007581],
+    
+# #     [0xAFCE2A31315960012D894048A8755DF9475EF1E5C8DF344B8470505ADEE2A89C, 
+# #      0xD83EBCCBB8F63550BA3F0259DC9991FB4424043962D27A6AF7A1C2FA99FC9130, 
+# #      0xFB5FEA6C8F95A49EDC67FC1D3B33103CDA39D27409B9903107221E169E62AFD0],
+    
+# #     [0x184D95E30FA87E26C5769374245851CA1FC68B055A7524B61EBF53F3E203BF5F, 
+# #      0x8B9FB30FF1A6B56D919080FF65304695323A2C4F6316F408AABE4C94C21A3384, 
+# #      0x0280485AAA6F6B565776405204453B6EF27D0DAA2DD2863F26804EDAFDCF4EAC]
+# # ], dtype=object)
+
+# # # 역행렬 계산 및 출력
+# # inverse = inverse_matrix_mod(A, n)
+# # if inverse is not None:
+# #     print(inverse)
+# # else:
+# #     print("역행렬이 존재하지 않습니다.")
+
+import hashlib
+
+msg = "148eddd3734fd5f15987579f516089a8c9fef4ab76b59d7b8a01cdc56c4edfdfa4e2e42cb4372a6f2f3f71a149481549f68d2963539c853e46b94696569e8d615468697320697320612073616d706c65206d65737361676520666f722045432d4b4344534120696d706c656d656e746174696f6e2076616c69646174696f6e2e"
+# msg = "abc"
+
+e = hashlib.sha256(msg.encode()).hexdigest()
+
+print(e)
